@@ -144,6 +144,23 @@ public class RockPaperScissorsApplicationTest {
     }
 
     @Test
+    public void makeMoveWithInvalidName (){
+        Player playerOne = new Player("Rami");
+        Player playerTwo = new Player("Ted");
+
+        createAndJoinGame(playerOne, playerTwo, "22");
+
+        playerOne.setMove("paper");
+        playerOne.setName("Gustav");
+
+        playerTwo.setMove("rock");
+
+        ResponseEntity<String> playerOneRes = makeMoveReq(playerOne, "22");
+        assertThat(playerOneRes.getBody()).contains("There is no player with this name or game with this id");
+        assertThat(playerOneRes.getStatusCodeValue()).isEqualTo(400);
+    }
+
+    @Test
     public void seeResultWithInvalidId() {
         Player playerOne = new Player("Rami");
         Player playerTwo = new Player("Ted");
@@ -174,6 +191,19 @@ public class RockPaperScissorsApplicationTest {
                 String.class);
         assertThat(res.getBody()).contains("The other player has not made a move yet");
         assertThat(res.getStatusCodeValue()).isEqualTo(200);
+    }
+
+    @Test
+    public void ThirdPlayerWantJoin() {
+        Player playerOne = new Player("Rami");
+        Player playerTwo = new Player("Ted");
+        Player playerThree = new Player("Johan");
+
+        createAndJoinGame(playerOne, playerTwo, "22");
+
+        ResponseEntity<String> playerOneRes = joinGameReq(playerThree, "22");
+        assertThat(playerOneRes.getBody()).contains("No more place for another player, 2 maximum.");
+        assertThat(playerOneRes.getStatusCodeValue()).isEqualTo(200);
     }
 
     @Test
