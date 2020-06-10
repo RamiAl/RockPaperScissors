@@ -1,7 +1,13 @@
 # Rock Paper Scissors
 
 ### To get started 
-Open the terminal in the target directory in the project and run the it with:
+Open the terminal in the root project and enter this command:
+```
+mvnw package
+```
+
+
+Then open target folder in the terminal to run the project by typing:
 ```
 java -jar RockPaperScissors-0.0.1-SNAPSHOT.jar
 ```
